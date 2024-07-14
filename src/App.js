@@ -7,8 +7,8 @@ import Total from './components/total/total'
 class App extends Component {
   state = {
     items: [
-      {id:1, product:'Pen', price:2},
-      {id:2, product:'Book', price:10}
+      {id:1, product:'Pen', price:2, count: 1},
+      {id:2, product:'Book', price:10, count: 1}
     ]
   }
 
@@ -17,6 +17,16 @@ class App extends Component {
     let i = items.findIndex(item => item.id === id)
     items.splice(i, 1)
     this.setState({items: items})
+  }
+  
+  changeCounter = (id, count) => {
+    let items = this.state.items
+    this.setState({items: items.map((obj)=>{
+      if(id === obj.id){
+        obj.count = count
+      }
+      return obj
+    })})
   }
 
   addItem = (item) => {
@@ -34,7 +44,7 @@ class App extends Component {
       <div className="container">
         <h1>Product List React App</h1>
         <div className="table">
-          <Items items={this.state.items} del={this.deleteItem}/>
+          <Items items={this.state.items} del={this.deleteItem} changeCounter={this.changeCounter}/>
           <AddItem add={this.addItem}/>
           <Total items={this.state.items}/>
         </div>
